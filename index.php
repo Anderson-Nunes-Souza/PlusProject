@@ -51,7 +51,7 @@
                      url: "./phps/teste.php",
                      type: "POST",
                      data: {
-                         field1: message['result']['payer']['payer_info']['payer_id'];// payerid vai aqui,
+                         field1: "payer id",// payerid vai aqui,
                          field2: url.links[2].href
                      },
                      success: function(result) {
