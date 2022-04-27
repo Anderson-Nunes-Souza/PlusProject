@@ -27,7 +27,7 @@ if (curl_errno($ch)) {
     echo 'Error:' . curl_error($ch);
 }
 curl_close($ch);
-
+$atoken = $result->access_token;
 return $result->access_token;
 
 ?>

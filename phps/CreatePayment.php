@@ -1,6 +1,6 @@
 <?php
 
-$atoken = require('./phps/aTokenCreate.php');
+$atoken = require('./phps/aTokenCreate.php'); //Receives object
 //echo $atoken;
 
 $curl = curl_init();
@@ -118,13 +118,11 @@ curl_setopt_array($curl, array(
 ));
 
 $response = curl_exec($curl);
+
 //echo strval($response);
 //$response = strval($response);
 //$response = json_decode($response);
 //echo $response->links[1]->href;
 
-print_r($response);
-
-//print_r($response->links);
-
+return $response;
 ?>
