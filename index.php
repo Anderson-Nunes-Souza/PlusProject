@@ -45,31 +45,40 @@
              "enableContinue": "continueButton",
              "merchantInstallmentSelectionOptional": installments,
              "onContinue": () => {
-                 var response = document.querySelector('continueButton');
-                 console.table(response);
+                 //console.log(payerId + " payerid on Continue");
                  $.ajax({
-                     url: "./phps/teste.php",
+                     url: "./phps/paymentExecution.php",
                      type: "POST",
                      data: {
-                         field1: "payer id",// payerid vai aqui,
+                         field1: payerId, // payerid vai aqui,
                          field2: url.links[2].href
                      },
                      success: function(result) {
-                         console.log(gettype(payerId));
-                         console.log(gettype(url.links[2].href));
-                         console.log(result);
-                         alert("function Success");
+                         alert("Pagamento Concluído");
+                         //console.log(ppp);
                      },
                      error: function() {
-                         console.log(error);
+                         //console.log(error);
                          alert("function Error");
                      }
                  })
              }
          });
+
+         window.addEventListener("message", messageListener, false);
+
+         function messageListener(event){
+            var data = JSON.parse(event.data);
+            //console.table(data);
+            if (data.action == "checkout"){
+            payerId = data.result.payer.payer_info.payer_id;
+            //console.log(data.result.payer.payer_info.payer_id);
+         }else{}
+         };
+
      </script>
      <br>
-     <button type="submit" id="continueButton" class="btn btn-lg btn-primary btn-block" onclick="ppp.doContinue(); return true;">
+     <button type="submit" id="continueButton" class="btn btn-lg btn-primary btn-block" onclick="ppp.doContinue(); return false ;">
          Checkout
      </button>
 
