@@ -1,6 +1,7 @@
 # PlusProject
 
-Playground de projetos
- - Projeto1 - Integração PP+
-
-- 27-04 - Atualizado Projeto1 que estava sem subir para o github.
+Tecnologias utilizadas nesse projeto
+- html 5;
+- Css - Bootstrap 5.0.2;
+- jquery 3.5.1 - utilizado para Ajax
+- PHP Version 8.1.1
