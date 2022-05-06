@@ -9,7 +9,6 @@
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
      <script src="https://www.paypalobjects.com/webstatic/ppplusdcc/ppplusdcc.min.js" type="text/javascript"></script>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
      <title>Plus Project</title>
  </head>
 
@@ -45,7 +44,6 @@
              "enableContinue": "continueButton",
              "merchantInstallmentSelectionOptional": installments,
              "onContinue": () => {
-                 //console.log(payerId + " payerid on Continue");
                  $.ajax({
                      url: "./phps/paymentExecution.php",
                      type: "POST",
@@ -54,28 +52,38 @@
                          field2: url.links[2].href
                      },
                      success: function(result) {
+                         //console.log(typeof(result)); //->String
+                         console.log(result);
+                         //console.table(result);
+                         result = JSON.parse(result);
+                         //console.log(typeof(result)); //->Object
+                         console.table(result);
+                         //console.log(result.id);
+                         //console.table(result.id);
+                         //console.table(result.transactions);
+                         //console.table(result.transactions[0].related_resources[0].sale.id);
                          alert("Pagamento Concluído");
-                         //console.log(ppp);
+                         window.location.href = "http://localhost/Plus%20Project/PlusProject/SucessPayment.php?paymentId="+ result.transactions[0].related_resources[0].sale.id;
                      },
                      error: function() {
                          //console.log(error);
                          alert("function Error");
+                         window.location.href = "http://localhost/Plus%20Project/PlusProject/CancelPayment.html"
                      }
                  })
-             }
+             },
          });
 
          window.addEventListener("message", messageListener, false);
 
-         function messageListener(event){
-            var data = JSON.parse(event.data);
-            //console.table(data);
-            if (data.action == "checkout"){
-            payerId = data.result.payer.payer_info.payer_id;
-            //console.log(data.result.payer.payer_info.payer_id);
-         }else{}
+         function messageListener(event) {
+             var data = JSON.parse(event.data);
+             //console.table(data);
+             if (data.action == "checkout") {
+                 payerId = data.result.payer.payer_info.payer_id;
+                 //console.log(data.result.payer.payer_info.payer_id);
+             } else {}
          };
-
      </script>
      <br>
      <button type="submit" id="continueButton" class="btn btn-lg btn-primary btn-block" onclick="ppp.doContinue(); return false ;">

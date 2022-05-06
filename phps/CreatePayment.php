@@ -104,9 +104,9 @@ curl_setopt_array($curl, array(
 
   "redirect_urls": {
 
-    "return_url": "https://example.com/return",
+    "return_url": "http://localhost/Plus%20Project/PlusProject/SucessPayment.html",
 
-    "cancel_url": "https://example.com/cancel"
+    "cancel_url": "http://localhost/Plus%20Project/PlusProject/CancelPayment.html"
 
   }
 
