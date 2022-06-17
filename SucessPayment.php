@@ -15,7 +15,7 @@
 <body>
     <h1>Id da transação: <?php $paymenId = $_GET["paymentId"]; echo $paymenId; ?></h1>
     <h2>Pagamento realizado com sucesso!</h2>
-    <h2><a href="http://localhost/Plus%20Project/PlusProject/index.php">Retornar ao site da loja</h2></a>
+    <h2><a href="./index.php">Retornar ao site da loja</h2></a>
 </body>
 
 </html>
