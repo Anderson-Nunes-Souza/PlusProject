@@ -34,9 +34,13 @@
 
         <div class="col-12 p-3 bg-secondary">
             
-            <footer class="text-center">
-                PayPal do Brasil
-            </footer>
+        <div class="col-12 p-3 bg-secondary">
+             <footer class="text-center">
+                 PayPal do Brasil © 1999 - <script>
+                     document.write(new Date().getFullYear());
+                 </script>
+             </footer>
+         </div>
         </div>
     </div>
 </body>
