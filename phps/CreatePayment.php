@@ -28,7 +28,7 @@ curl_setopt_array($curl, array(
 
     "amount": {
 
-      "currency": "BRL",
+      "currency": "USD",
 
       "total": "93.00",
 
@@ -70,13 +70,13 @@ curl_setopt_array($curl, array(
 
         "city": "Votorantim",
 
-        "country_code": "BR",
+        "country_code": "MX",
 
         "postal_code": "18117-134",
 
         "state": "São Paulo",
 
-        "phone": "0800-761-0880"
+        "phone": "520800-761-0880"
 
       },
 
@@ -94,7 +94,7 @@ curl_setopt_array($curl, array(
 
         "sku": "product34",
 
-        "currency": "BRL"
+        "currency": "USD"
 
       }]
 
