@@ -82,6 +82,10 @@
                      }
                  })
              },
+             "onError": () => {
+                 alert("erro" + m_error + "tente novamente");
+                 //window.location.reload();
+             }
          });
 
          window.addEventListener("message", messageListener, false);
@@ -90,7 +94,10 @@
              var data = JSON.parse(event.data);
              if (data.action == "checkout") {
                  payerId = data.result.payer.payer_info.payer_id;
-             } else {}
+             } else {
+                 //console.log(data.cause);
+                 m_error = data.cause;
+             }
          };
      </script>
 
