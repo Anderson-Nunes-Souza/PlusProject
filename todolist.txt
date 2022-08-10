@@ -1,0 +1,1 @@
+- Traduzir retornor recebidos nos erros da linha 99 do index.php - data.cause.
