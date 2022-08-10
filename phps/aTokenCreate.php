@@ -9,7 +9,7 @@ curl_setopt($ch, CURLOPT_URL, 'https://api.sandbox.paypal.com/v1/oauth2/token');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_POST, 1);
 curl_setopt($ch, CURLOPT_POSTFIELDS, "grant_type=client_credentials");
-curl_setopt($ch, CURLOPT_USERPWD, "AWupDVFxpF16DS4zfVkm5xS2OspDFRI_CVCw1lWYHMyjPKXdE5Mru_uEIoZBGD2-8RMLtXyd3LYUSPOD".":"."EBdPsbq5k0zaIQXF6L-BS71npDYbruuZ-IIMvY8vp2EsXDfJTbIncEFT94jdzn5Wm4dZicucWPylXZng");
+curl_setopt($ch, CURLOPT_USERPWD, "AaKMfYEIZIw-GtYuc24yyOK5R4Vvtcp2S5SVxLRQdjTayU1B9hEwsMq5J-vzzP5vmGLdVqENMeAm7Qhv".":"."EHVDsu06ZabYjeNFXdv9Ou3C65MGYiXoj1kCDKXAJxaQ9izhCAyc_WANBfH82pi70JyOlcH7YKzpiWrR");
 
 $headers = array();
 $headers[] = 'Accept: application/json';

@@ -28,7 +28,7 @@ curl_setopt_array($curl, array(
 
     "amount": {
 
-      "currency": "USD",
+      "currency": "MXN",
 
       "total": "93.00",
 
@@ -94,7 +94,7 @@ curl_setopt_array($curl, array(
 
         "sku": "product34",
 
-        "currency": "USD"
+        "currency": "MXN"
 
       }]
 

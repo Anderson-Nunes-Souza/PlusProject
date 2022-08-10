@@ -43,7 +43,7 @@
              "rememberedCards": rememberedCards,
              "enableContinue": "continueButton",
              //"merchantInstallmentSelectionOptional": installments,
-             "onContinue": () => {
+             "onContinue": ()=>{
                  $.ajax({
                      url: "./phps/paymentExecution.php",
                      type: "POST",
