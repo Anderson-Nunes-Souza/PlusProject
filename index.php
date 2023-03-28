@@ -19,7 +19,6 @@
          <header class="text-center col-12 bg-secondary p-3">
              PayPal Plus
          </header>
-         <?session_start()?>>
 
          <div class="col-12 bg-light p-5">
              <!--Seleção de parcelas-->
@@ -29,12 +28,12 @@
                                       
                      <select class="form-select" id="total" onchange=enviar_valor()>
                          <option selected value="0">Selecione a opção</option>
-                         <option value="93.00">1 x de R$93,00</option>
-                         <option value="93.00">2 x de R$93,00</option>
-                         <option value="93.00">3 x de R$93,00</option>
-                         <option value="93.00">4 x de R$93,00</option>
-                         <option value="93.00">5 x de R$93,00</option>
-                         <option value="93.00">6 x de R$93,00</option>
+                         <option value="1">1 x de R$93,00</option>
+                         <option value="2">2 x de R$93,00</option>
+                         <option value="3">3 x de R$93,00</option>
+                         <option value="4">4 x de R$93,00</option>
+                         <option value="5">5 x de R$93,00</option>
+                         <option value="6">6 x de R$93,00</option>
                         </select>
                     </div>
 
@@ -71,19 +70,21 @@
 
         function enviar_valor(){
             var valor = document.getElementById("total");
-            console.table(valor.value);
-            if(valor.value == 0){
+            valor = valor.value;
+            //console.table(valor);
+            if(valor == 0){
                 alert("Selecione uma opção de parcelamento");
                 window.location.reload();
             }else{
-                carrega_frame();
+                carrega_frame(valor);
             }
         };
-         var url = <?php print_r(strval(require_once('./phps/CreatePayment.php'))); ?>;
-         var rememberedCards = "customerRememberedCardHash";
 
-
-         function carrega_frame(){
+         function carrega_frame(installments){
+            var url = <?php print_r(strval(require_once('./phps/CreatePayment.php'))); ?>;
+            var rememberedCards = "customerRememberedCardHash";
+            var installments; 
+            //console.log(installments);
 
              var ppp = PAYPAL.apps.PPP({
                  "approvalUrl": url.links[1].href,
@@ -100,7 +101,8 @@
                  "rememberedCards": rememberedCards,
                  "enableContinue": "continueButton",
                  "iframeHeight": "450",
-                 //"merchantinstallmentselection": 4,
+                 "merchantInstallmentSelection": installments,
+                 "merchantInstallmentSelectionOptional": false,
                  "onContinue": () => {
                      $.ajax({
                          url: "./phps/paymentExecution.php",
