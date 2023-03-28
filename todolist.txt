@@ -1,1 +1,23 @@
 - Traduzir retornor recebidos nos erros da linha 99 do index.php - data.cause.
+
+
+
+entao, é assim
+ce tem um valor de 100
+ai mostra no checkout um dropdown com esse valor de 100 dividido lá no numero de parcelas e a % de juros
+ai digamos que o comprador escolheu 6x
+acrescentou 10% de juros
+ai o total ficou 110,00
+na hora em que vc escolhe, o createpayment é feito
+aí no line item vc pasa um item a mais
+{ description: juros... }
+e na hora de carregar o PP+, tem 2 parametros que vc precisa alterar
+um é o merchantinstallmentselection
+que vc passa como false
+isso faz com que o dropdown de dentro do iframe fique congelado
+e vc passa tb o merchantinstallmentselectionoption
+nesse vc passa a quantidade de x que foi escolhida
+ai o iframe vai carregar com a opção de 6x congelada
+tendeus?
+depois tenta reproduzir do seu lado, mas é bem de boas
+enfim, é meio gambiarra

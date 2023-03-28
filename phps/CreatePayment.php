@@ -2,6 +2,8 @@
 
 $atoken = require('./phps/aTokenCreate.php'); //Receives object
 //echo $atoken;
+//$total = $_SESSION['total'];
+//print_r($total);
 
 $curl = curl_init();
 
@@ -30,11 +32,11 @@ curl_setopt_array($curl, array(
 
       "currency": "BRL",
 
-      "total": "93.00",
+      "total": "100.00",
 
       "details": {
 
-        "shipping": "11",
+        "shipping": "18",
 
         "subtotal": "75",
 
