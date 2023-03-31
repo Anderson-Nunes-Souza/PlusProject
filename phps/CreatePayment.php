@@ -2,8 +2,7 @@
 
 $atoken = require('./phps/aTokenCreate.php'); //Receives object
 //echo $atoken;
-//$total = $_SESSION['total'];
-//print_r($total);
+
 
 $curl = curl_init();
 

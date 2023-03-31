@@ -21,21 +21,36 @@
          </header>
 
          <div class="col-12 bg-light p-5">
-             <!--Seleção de parcelas-->
+             <!-- Campo do Valor do produto-->
+
+
              <div class="d-grid col-6 mx-auto p-3">
 
+             <div class="input-group mb-3">
+                 <div class="input-group-prepend">
+                     <span class="input-group-text">R$</span>
+                 </div>
+                 <input type="text" class="form-control" id="valorProduto" aria-label="Quantia" placeholder="Valor Total do Produto">
+             </div>
+
+
+                 <!--Seleção de parcelas
+                       - Precisa colocar o valor total em uma variável.
+                       - Precisa deixar as parcelas dinâmicas;
+                   -->
                  <label for="valor"> Selecione as Parcelas</label>
-                                      
-                     <select class="form-select" id="total" onchange=enviar_valor()>
-                         <option selected value="0">Selecione a opção</option>
-                         <option value="1">1 x de R$93,00</option>
-                         <option value="2">2 x de R$93,00</option>
-                         <option value="3">3 x de R$93,00</option>
-                         <option value="4">4 x de R$93,00</option>
-                         <option value="5">5 x de R$93,00</option>
-                         <option value="6">6 x de R$93,00</option>
-                        </select>
-                    </div>
+                
+
+                 <select class="form-select" id="parcelas" onchange=enviar_valor()>
+                     <option selected value="0">Selecione a opção</option>
+                     <option value="1">1x</option>
+                     <option value="2">2x</option>
+                     <option value="3">3x</option>
+                     <option value="4">4x</option>
+                     <option value="5">5x</option>
+                     <option value="6">6x</option>
+                 </select>
+             </div>
 
              <!--Fim Seleção de parcelas-->
 
@@ -66,26 +81,33 @@
 
      <br><br>
 
-     <script type="application/javascript">
+     <script type="application/javascript" defer>
+         function enviar_valor() {
+             var parcelas = document.getElementById("parcelas");
+             var vlrTotal = document.getElementById("valorProduto");
+             parcelas = parcelas.value;
+             vlrTotal = vlrTotal.value;
 
-        function enviar_valor(){
-            var valor = document.getElementById("total");
-            valor = valor.value;
-            //console.table(valor);
-            if(valor == 0){
-                alert("Selecione uma opção de parcelamento");
-                window.location.reload();
-            }else{
-                carrega_frame(valor);
-            }
-        };
+             //console.table(parcelas); Retornou o valor
+             //console.table(vlrTotal); Retornou o valor
 
-         function carrega_frame(installments){
-            var url = <?php print_r(strval(require_once('./phps/CreatePayment.php'))); ?>;
-            var rememberedCards = "customerRememberedCardHash";
-            var installments; 
-            //console.log(installments);
+             //Precisa melhorar a lógica desses if-else posteriormente.
+             if (vlrTotal == "") {
+                 alert("Insira um valor para continuar");
+             } else if (parcelas == 0) {
+                 alert("Selecione uma opção de parcelamento");
+             } else {
+                 carrega_frame(parcelas, vlrTotal);
+             }
+         };
 
+         function carrega_frame(installments, vlrTotal) {
+             var url = <?php print_r(strval(require_once('./phps/CreatePayment.php'))); ?>;
+             var rememberedCards = "customerRememberedCardHash";
+             var installments;
+             var vlrTotal;
+             console.log(installments);
+             console.table(vlrTotal);
              var ppp = PAYPAL.apps.PPP({
                  "approvalUrl": url.links[1].href,
                  "placeholder": "ppplusDiv",
@@ -110,26 +132,26 @@
                          data: {
                              field1: payerId,
                              field2: url.links[2].href
-                            },
-                            success: function(result) {
-                                result = JSON.parse(result);
-                                console.table(result);
-                                alert("Pagamento Concluído");
-                                window.location.href = "./SucessPayment.php?paymentId=" + result.transactions[0].related_resources[0].sale.id;
-                            },
-                            error: function() {
-                                window.location.href = "./CancelPayment.html"
-                            }
-                        })
-                    },
-                    "onError": () => {
-                        alert("erro" + m_error + "tente novamente");
-                        //window.location.reload();
-                    }
-                });
-            };
-                
-                window.addEventListener("message", messageListener, false);
+                         },
+                         success: function(result) {
+                             result = JSON.parse(result);
+                             console.table(result);
+                             alert("Pagamento Concluído");
+                             window.location.href = "./SucessPayment.php?paymentId=" + result.transactions[0].related_resources[0].sale.id;
+                         },
+                         error: function() {
+                             window.location.href = "./CancelPayment.html"
+                         }
+                     })
+                 },
+                 "onError": () => {
+                     alert("erro" + m_error + "tente novamente");
+                     window.location.reload();
+                 }
+             });
+         };
+
+         window.addEventListener("message", messageListener, false);
 
          function messageListener(event) {
              var data = JSON.parse(event.data);
