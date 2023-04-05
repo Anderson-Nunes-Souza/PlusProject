@@ -1,4 +1,14 @@
 <?php
+//session_start();
+
+//$installments = $_GET['installments'];
+//$vlrTotal = $_GET['vlrTotal'];
+
+//$_SESSION['vlrTotal'] = $vlrTotal;
+//$_SESSION['installments'] = $installments;
+
+//echo $vlrTotal;
+//echo $installments;
 
 $atoken = require('./phps/aTokenCreate.php'); //Receives object
 //echo $atoken;

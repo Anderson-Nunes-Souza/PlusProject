@@ -26,12 +26,12 @@
 
              <div class="d-grid col-6 mx-auto p-3">
 
-             <div class="input-group mb-3">
-                 <div class="input-group-prepend">
-                     <span class="input-group-text">R$</span>
+                 <div class="input-group mb-3">
+                     <div class="input-group-prepend">
+                         <span class="input-group-text">R$</span>
+                     </div>
+                     <input type="text" class="form-control" id="valorProduto" aria-label="Quantia" placeholder="Valor Total do Produto">
                  </div>
-                 <input type="text" class="form-control" id="valorProduto" aria-label="Quantia" placeholder="Valor Total do Produto">
-             </div>
 
 
                  <!--Seleção de parcelas
@@ -39,7 +39,7 @@
                        - Precisa deixar as parcelas dinâmicas;
                    -->
                  <label for="valor"> Selecione as Parcelas</label>
-                
+
 
                  <select class="form-select" id="parcelas" onchange=enviar_valor()>
                      <option selected value="0">Selecione a opção</option>
@@ -83,13 +83,11 @@
 
      <script type="application/javascript" defer>
          function enviar_valor() {
-             var parcelas = document.getElementById("parcelas");
+             var installments = document.getElementById("parcelas");
              var vlrTotal = document.getElementById("valorProduto");
-             parcelas = parcelas.value;
+             installments = parcelas.value;
              vlrTotal = vlrTotal.value;
-
-             //console.table(parcelas); Retornou o valor
-             //console.table(vlrTotal); Retornou o valor
+             var feed = fetch("./phps/valueReceive.php?installments=" + installments + "&vlrTotal=" + vlrTotal);
 
              //Precisa melhorar a lógica desses if-else posteriormente.
              if (vlrTotal == "") {
@@ -97,17 +95,17 @@
              } else if (parcelas == 0) {
                  alert("Selecione uma opção de parcelamento");
              } else {
-                 carrega_frame(parcelas, vlrTotal);
+                 carrega_frame(installments);
              }
          };
-
-         function carrega_frame(installments, vlrTotal) {
-             var url = <?php print_r(strval(require_once('./phps/CreatePayment.php'))); ?>;
+         
+         function carrega_frame(installments) {
+             var installments
+             //console.table(feed);
+             var url = <?php print_r(strval(require('./phps/CreatePayment.php'))); ?>;
              var rememberedCards = "customerRememberedCardHash";
-             var installments;
-             var vlrTotal;
-             console.log(installments);
-             console.table(vlrTotal);
+             //console.log(installments);
+             //console.table(vlrTotal);
              var ppp = PAYPAL.apps.PPP({
                  "approvalUrl": url.links[1].href,
                  "placeholder": "ppplusDiv",
@@ -132,38 +130,38 @@
                          data: {
                              field1: payerId,
                              field2: url.links[2].href
-                         },
-                         success: function(result) {
-                             result = JSON.parse(result);
-                             console.table(result);
-                             alert("Pagamento Concluído");
-                             window.location.href = "./SucessPayment.php?paymentId=" + result.transactions[0].related_resources[0].sale.id;
-                         },
-                         error: function() {
-                             window.location.href = "./CancelPayment.html"
-                         }
-                     })
-                 },
-                 "onError": () => {
-                     alert("erro" + m_error + "tente novamente");
-                     window.location.reload();
-                 }
-             });
-         };
-
+                            },
+                            success: function(result) {
+                                result = JSON.parse(result);
+                                console.table(result);
+                                alert("Pagamento Concluído");
+                                window.location.href = "./SucessPayment.php?paymentId=" + result.transactions[0].related_resources[0].sale.id;
+                            },
+                            error: function() {
+                                window.location.href = "./CancelPayment.html"
+                            }
+                        })
+                    },
+                    "onError": () => {
+                        alert("erro" + m_error + "tente novamente");
+                        window.location.reload();
+                    }
+                });
+            };
+            
          window.addEventListener("message", messageListener, false);
-
+         
          function messageListener(event) {
              var data = JSON.parse(event.data);
              if (data.action == "checkout") {
                  payerId = data.result.payer.payer_info.payer_id;
-             } else {
-                 //console.log(data.cause);
-                 m_error = data.cause;
-             }
-         };
-     </script>
+                } else {
+                    //console.log(data.cause);
+                    m_error = data.cause;
+                }
+            };
+            </script>
 
- </body>
+</body>
 
- </html>
+</html>
