@@ -43,9 +43,9 @@
 
                  <select class="form-select" id="parcelas" onchange=enviar_valor()>
                      <option selected value="0">Selecione a opção</option>
-                     <option value="1">1x</option>
-                     <option value="2">2x</option>
-                     <option value="3">3x</option>
+                     <option value="1">1x sem juros</option>
+                     <option value="2">2x sem juros</option>
+                     <option value="3">3x sem juros</option>
                      <option value="4">4x</option>
                      <option value="5">5x</option>
                      <option value="6">6x</option>
@@ -87,7 +87,7 @@
              var vlrTotal = document.getElementById("valorProduto");
              installments = parcelas.value;
              vlrTotal = vlrTotal.value;
-             var feed = fetch("./phps/valueReceive.php?installments=" + installments + "&vlrTotal=" + vlrTotal);
+             fetch("./phps/valueReceive.php?installments=" + installments + "&vlrTotal=" + vlrTotal);
 
              //Precisa melhorar a lógica desses if-else posteriormente.
              if (vlrTotal == "") {
