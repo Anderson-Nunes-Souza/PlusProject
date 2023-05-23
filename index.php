@@ -59,7 +59,7 @@
              <!--fim do Iframe-->
 
              <div class="d-grid col-6 mx-auto p-3">
-                 <button type="submit" id="continueButton" class="btn btn-lg btn-primary" onclick="ppp.doContinue(); return false;">
+                 <button type="submit" id="continueButton" class="btn btn-lg btn-primary" onclick="ppp.onContinue(); return false;">
                      Checkout
                  </button>
              </div>
@@ -87,27 +87,42 @@
              var vlrTotal = document.getElementById("valorProduto");
              installments = parcelas.value;
              vlrTotal = vlrTotal.value;
-             fetch("./phps/valueReceive.php?installments=" + installments + "&vlrTotal=" + vlrTotal);
-
              //Precisa melhorar a lógica desses if-else posteriormente.
              if (vlrTotal == "") {
                  alert("Insira um valor para continuar");
              } else if (parcelas == 0) {
                  alert("Selecione uma opção de parcelamento");
              } else {
-                 carrega_frame(installments);
+                 $.ajax({
+                     url: "./phps/CreatePayment.php",
+                     type: "GET",
+                     data: {
+                         installments: installments,
+                         vlrTotal: vlrTotal
+                     },
+                     success: function(result) {
+                         //console.log("sucesso no ajax do CreatePayment.php" + result);
+                         var result = JSON.parse(result);
+                         carrega_frame(installments, result);
+                     },
+                     error: function() {
+                         console.log("erro no ajax do CreatePayment.php" + result)
+                     }
+                 });
+
              }
          };
-         
-         function carrega_frame(installments) {
-             var installments
-             //console.table(feed);
-             var url = <?php print_r(strval(require('./phps/CreatePayment.php'))); ?>;
+
+         function carrega_frame(installments,result) {
+             var installments;
+             //console.log(typeof(result))
+             //console.table(result)        
+
              var rememberedCards = "customerRememberedCardHash";
              //console.log(installments);
              //console.table(vlrTotal);
              var ppp = PAYPAL.apps.PPP({
-                 "approvalUrl": url.links[1].href,
+                 "approvalUrl": result.links[1].href,
                  "placeholder": "ppplusDiv",
                  "mode": "sandbox",
                  "payerFirstName": "John",
@@ -129,39 +144,39 @@
                          type: "POST",
                          data: {
                              field1: payerId,
-                             field2: url.links[2].href
-                            },
-                            success: function(result) {
-                                result = JSON.parse(result);
-                                console.table(result);
-                                alert("Pagamento Concluído");
-                                window.location.href = "./SucessPayment.php?paymentId=" + result.transactions[0].related_resources[0].sale.id;
-                            },
-                            error: function() {
-                                window.location.href = "./CancelPayment.html"
-                            }
-                        })
-                    },
-                    "onError": () => {
-                        alert("erro" + m_error + "tente novamente");
-                        window.location.reload();
-                    }
-                });
-            };
-            
+                             field2: result.links[2].href
+                         },
+                         success: function(result) {
+                             result = JSON.parse(result);
+                             console.table(result);
+                             alert("Pagamento Concluído");
+                             window.location.href = "./SucessPayment.php?paymentId=" + result.transactions[0].related_resources[0].sale.id;
+                         },
+                         error: function() {
+                             window.location.href = "./CancelPayment.html"
+                         }
+                     })
+                 },
+                 "onError": () => {
+                     alert("erro" + m_error + "tente novamente");
+                     window.location.reload();
+                 }
+             });
+         };
+
          window.addEventListener("message", messageListener, false);
-         
+
          function messageListener(event) {
              var data = JSON.parse(event.data);
              if (data.action == "checkout") {
                  payerId = data.result.payer.payer_info.payer_id;
-                } else {
-                    //console.log(data.cause);
-                    m_error = data.cause;
-                }
-            };
-            </script>
+             } else {
+                 //console.log(data.cause);
+                 m_error = data.cause;
+             }
+         };
+     </script>
 
-</body>
+ </body>
 
-</html>
+ </html>

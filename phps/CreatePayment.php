@@ -1,11 +1,13 @@
 <?php
 session_start();
 
-$installments = $_SESSION['installments'];
-$vlrTotal = $_SESSION['vlrTotal'];
+$installments = $_GET['installments'];
+$vlrTotal = $_GET['vlrTotal'];
 
+//echo $installments;
+//echo $vlrTotal;
 
-$atoken = require('./phps/aTokenCreate.php'); //Receives object
+$atoken = require('.\aTokenCreate.php'); //Receives object
 //echo $atoken;
 
 
@@ -29,14 +31,14 @@ curl_setopt_array($curl, array(
         {
           "amount": {
             "currency": "BRL",
-            "total": '. $vlrTotal.',
+            "total": "82",
             "details": {
-              "shipping": "18",
+              "shipping": "1",
               "subtotal": "75",
-              "shipping_discount": "1.00",
-              "insurance": "1.00",
-              "handling_fee": "1.00",
-              "tax": "6.00"
+              "shipping_discount": "0",
+              "insurance": "0",
+              "handling_fee": "0",
+              "tax": "6"
             }
           },
           "description": "This is the payment transaction description",
@@ -86,5 +88,5 @@ $response = curl_exec($curl);
 //$response = json_decode($response);
 //echo $response->links[1]->href;
 
-return $response;
-?>
+print $response;
+// ?>
