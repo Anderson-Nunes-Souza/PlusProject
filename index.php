@@ -43,9 +43,9 @@
 
                  <select class="form-select" id="parcelas" onchange=enviar_valor()>
                      <option selected value="0">Selecione a opção</option>
-                     <option value="1">1x sem juros</option>
-                     <option value="2">2x sem juros</option>
-                     <option value="3">3x sem juros</option>
+                     <option value="1">1x</option>
+                     <option value="2">2x</option>
+                     <option value="3">3x</option>
                      <option value="4">4x</option>
                      <option value="5">5x</option>
                      <option value="6">6x</option>
@@ -57,9 +57,12 @@
              <!--Iframe do PP+ -->
              <div id="ppplusDiv"></div>
              <!--fim do Iframe-->
+             <script>
+                var ppp = null;
+             </script>
 
              <div class="d-grid col-6 mx-auto p-3">
-                 <button type="submit" id="continueButton" class="btn btn-lg btn-primary" onclick="ppp.onContinue(); return false;">
+                 <button type="submit" id="continueButton" class="btn btn-lg btn-primary" onclick="ppp.doContinue(); return false;">
                      Checkout
                  </button>
              </div>
@@ -121,7 +124,8 @@
              var rememberedCards = "customerRememberedCardHash";
              //console.log(installments);
              //console.table(vlrTotal);
-             var ppp = PAYPAL.apps.PPP({
+             console.log(ppp);
+             ppp = PAYPAL.apps.PPP({
                  "approvalUrl": result.links[1].href,
                  "placeholder": "ppplusDiv",
                  "mode": "sandbox",
